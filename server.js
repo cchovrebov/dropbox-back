@@ -210,6 +210,7 @@ app.post('/photos', (req, res) => {
       if (err) throw err;
       const parsedData = JSON.parse(data);
       const createdData = {
+        id,
         title: file.name,
         size: file.size,
         date: new Date(),

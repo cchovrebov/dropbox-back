@@ -1,1 +1,16 @@
-[{"albumId":1,"id":1,"title":"accusamus beatae ad facilis cum similique qui sunt","url":"https://via.placeholder.com/600/92c952","size":124314,"date":"2022-02-08 18:21:33"},{"title":{"name":"Screenshot 2022-01-21 at 06.40.28.png","data":{"type":"Buffer","data":[]},"size":1508328,"encoding":"7bit","tempFilePath":"/tmp/tmp-1-1644344697800","truncated":false,"mimetype":"image/png","md5":"27d10060939e70cc0c0f7763062acb83"},"size":1508328,"date":"2022-02-08T18:24:57.821Z","url":"http://localhost:5000/3cfa947c-6368-494a-86e0-cabb96292aa6.png"},{"title":{"name":"Screenshot 2022-01-27 at 21.26.29.png","data":{"type":"Buffer","data":[]},"size":129718,"encoding":"7bit","tempFilePath":"/tmp/tmp-1-1644344720495","truncated":false,"mimetype":"image/png","md5":"c6a5d2b16f26c4b0db683b01fccb2914"},"size":129718,"date":"2022-02-08T18:25:20.504Z","url":"http://localhost:5000/35100647-7541-4153-b3c8-b9e4cc5e8aa1.png"},{"title":"Screenshot 2022-01-28 at 20.34.03.png","size":239660,"date":"2022-02-08T18:25:53.157Z","url":"http://localhost:5000/f59b5df3-1f87-4bc8-a0c7-ac267b9fd5a2.png"}]
+[
+  {
+    "albumId": 1,
+    "id": 1,
+    "title": "accusamus beatae ad facilis cum similique qui sunt",
+    "url": "https://via.placeholder.com/600/92c952",
+    "size": 124314,
+    "date": "2022-02-08 18:21:33"
+  },
+  {
+    "title": "Screenshot 2022-01-28 at 20.34.03.png",
+    "size": 239660,
+    "date": "2022-02-08T18:25:53.157Z",
+    "url": "http://localhost:5000/f59b5df3-1f87-4bc8-a0c7-ac267b9fd5a2.png"
+  }
+]
