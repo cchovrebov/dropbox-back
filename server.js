@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname));
 app.set("view engine", "ejs");
-app.use(express.static(__dirname + '/.tmp'));
+app.use(express.static(__dirname + '/tmp'));
 
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
@@ -189,26 +189,31 @@ app.delete('/photos/:id', (req, res) => {
 });
 
 app.post('/photos', (req, res) => {
-  const {
-    title,
-    url,
-    size,
-  } = req.body;
-  if (!title || !url || !size) {
-    return res.status(404).send({
-      message: "Some data is missing"
-    });
-  }
+  const file = req.files.file;
   try {
-    const id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+    const id = uuidv4();
+
+    if (!file) {
+      return res.status(400).send('No files were uploaded.');
+    }
+    const uploadPath = `${__dirname}/tmp/${id}.${file.mimetype.split('/')[1]}`;
+
+    try {
+      file.mv(uploadPath, function (err) {
+        if (err) return res.status(500).send(err);
+      });
+    } catch (e) {
+      return res.status(500).send(e)
+    }
+
     fs.readFile('photos.json', (err, data) => {
       if (err) throw err;
       const parsedData = JSON.parse(data);
       const createdData = {
-        id,
-        title,
-        url,
-        size,
+        title: file.name,
+        size: file.size,
+        date: new Date(),
+        url: `http://localhost:${port}/${id}.${file.mimetype.split('/')[1]}`
       };
       parsedData.push(createdData);
       fs.writeFileSync('photos.json', JSON.stringify(parsedData));
