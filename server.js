@@ -115,7 +115,7 @@ app.get('/photos/:id', (req, res) => {
     fs.readFile('photos.json', (err, data) => {
       if (err) throw err;
       const parsedData = JSON.parse(data);
-      const photo = parsedData.find(item => item.id === parseInt(photoId));
+      const photo = parsedData.find(item => item.id === photoId);
       if (!photo) {
         return res.status(404).send({
           message: "Photo with such id is not found"
