@@ -170,15 +170,21 @@ app.delete('/photos/:id', (req, res) => {
     fs.readFile('photos.json', (err, data) => {
       if (err) throw err;
       const parsedData = JSON.parse(data);
-      const photo = parsedData.find(item => item.id === parseInt(photoId));
+      const photo = parsedData.find(item => item.id === photoId);
       if (!photo) {
         return res.status(404).send({
           message: "Photo with such id is not found"
         });
       }
-      const filteredData = parsedData.filter(item => item.id !== parseInt(photoId));
-      fs.writeFileSync('photos.json', JSON.stringify(filteredData));
-      return res.send(filteredData);
+
+      const filteredData = parsedData.filter(item => item.id !== photoId);
+      const uploadPath = `${__dirname}/tmp/${photo.id}.${photo.mimetype.split('/')[1]}`;
+      fs.unlinkSync(uploadPath);
+      fs.writeFileSync('photos.json', JSON.stringify(filteredData), function (err) {
+        if (err) return res.status(400).send(err);
+
+        return res.send(filteredData);
+      });
     });
   } catch (error) {
     return res.status(500).send({
@@ -214,7 +220,8 @@ app.post('/photos', (req, res) => {
         title: file.name,
         size: file.size,
         date: new Date(),
-        url: `http://localhost:${port}/${id}.${file.mimetype.split('/')[1]}`
+        url: `http://localhost:${port}/${id}.${file.mimetype.split('/')[1]}`,
+        mimetype: file.mimetype
       };
       parsedData.push(createdData);
       fs.writeFileSync('photos.json', JSON.stringify(parsedData));
