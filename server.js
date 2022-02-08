@@ -138,7 +138,7 @@ app.patch('/photos/:id', (req, res) => {
     fs.readFile('photos.json', (err, data) => {
       if (err) throw err;
       const parsedData = JSON.parse(data);
-      const photo = parsedData.find(item => item.id === parseInt(photoId));
+      const photo = parsedData.find(item => item.id === photoId);
       if (!photo) {
         return res.status(404).send({
           message: "Photo with such id is not found"
@@ -146,11 +146,8 @@ app.patch('/photos/:id', (req, res) => {
       }
       const updatedData = {
         ...photo,
-        ...body,
-        id: photo?.id,
-        albumId: photo?.albumId,
+        title: body?.title,
       };
-      console.log({ updatedData });
       const updatedArr = parsedData.map(item => item.id === photo.id ? updatedData : item)
       fs.writeFileSync('photos.json', JSON.stringify(updatedArr));
 
