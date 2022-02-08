@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 const app = express();
 const cors = require('cors');
-const port = 3000
+const port = 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -210,8 +210,8 @@ app.post('/photos', (req, res) => {
         url,
         size,
       };
-      const newData = parsedData.push(createdData);
-      fs.writeFileSync('photos.json', JSON.stringify(newData));
+      parsedData.push(createdData);
+      fs.writeFileSync('photos.json', JSON.stringify(parsedData));
       return res.send(createdData);
     });
   } catch (error) {
