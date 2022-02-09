@@ -161,6 +161,39 @@ app.patch('/photos/:id', (req, res) => {
   }
 });
 
+app.delete('/photos', (req, res) => {
+  try {
+    const photoIds = req.body
+    fs.readFile('photos.json', (err, data) => {
+      if (err) throw err;
+      const parsedData = JSON.parse(data);
+      const photos = parsedData.filter(item => photoIds.includes(item.id));
+
+      if (!photos?.length) {
+        return res.status(404).send("Photo with such id is not found");
+      }
+      const filteredData = parsedData.filter(item => !photoIds.includes(item.id));
+
+      for (let i = 0; i < photos.length; i++) {
+        const photo = photos[i];
+
+        const uploadPath = `${__dirname}/tmp/${photo.id}.${photo.mimetype.split('/')[1]}`;
+        fs.unlinkSync(uploadPath);
+        fs.writeFileSync('photos.json', JSON.stringify(filteredData), function (err) {
+          if (err) return res.status(400).send(err);
+        });
+      }
+
+      return res.send(filteredData);
+    });
+  } catch (error) {
+    return res.status(500).send({
+      message: error.message,
+      error,
+    });
+  }
+});
+
 app.delete('/photos/:id', (req, res) => {
   try {
     const photoId = req.params?.id;
